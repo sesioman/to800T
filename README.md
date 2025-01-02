@@ -1,15 +1,15 @@
 # To800T
 
-Herramienta y mini red social para el procesamiento de fotos RAW con el objetivo de simular la estetica del carrete Cinestill 800T
+A tool and mini social network for processing RAW photos with the goal of simulating the aesthetic of the Cinestill 800T film.
 
-## Tecnologías
+## Technologies
 
-- Servicios: NestJS (Node.js), Flask (Python)
-- Infraestructura: Docker
+- Services: NestJS (Node.js), Flask (Python)
+- Infrastructure: Docker
 - Frontend: Angular
-- Base de datos: PostgreSQL
+- Database: PostgreSQL
 
-## Cómo empezar
+## Getting Started
 
-1. Revisa los requisitos en [docs/deploy/local.md](docs/deploy/local.md).
-2. Levanta el entorno local con Docker Compose.
+1. Review the requirements in [docs/deploy/local.md](docs/deploy/local.md).
+2. Set up the local environment with Docker Compose.
