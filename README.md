@@ -2,6 +2,9 @@
 
 A tool and mini social network for processing RAW photos with the goal of simulating the aesthetic of the Cinestill 800T film.
 
+![Landing Page](docs/frontend/mockups/landig_page.png)
+![Explore](docs/frontend/mockups/explore.png)
+
 ## Technologies
 
 - Services: NestJS (Node.js), FastAPI (Python)
