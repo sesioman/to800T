@@ -1,0 +1,20 @@
+{
+  "configurations": [
+    
+    {
+      "name": "Python Debugger: FastAPI mi PC",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "C:/Users/pc/AppData/Local/Programs/Python/Python312/Lib/site-packages/uv", // Ajusta el path si uv está en un entorno virtual
+      "args": [
+        "run",               // El subcomando que usas para correr la app
+        "uvicorn",           // El servidor de ASGI que quieres usar
+        "app.main:app",      // El path a tu aplicación FastAPI
+        "--host", "0.0.0.0", // Dirección de host
+        "--port", "8000",    // Puerto
+        "--reload"           // Habilita la recarga automática
+      ],
+      "jinja": true
+    }
+  ]
+}

@@ -4,7 +4,7 @@ A tool and mini social network for processing RAW photos with the goal of simula
 
 ## Technologies
 
-- Services: NestJS (Node.js), Flask (Python)
+- Services: NestJS (Node.js), FastAPI (Python)
 - Infrastructure: Docker
 - Frontend: Angular
 - Database: PostgreSQL
