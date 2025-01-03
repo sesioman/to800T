@@ -24,3 +24,19 @@ class ImageRepository:
         if not image:
             raise ValueError(f"Image with id {image_id} not found.")
         return image
+    
+    async def update(self, image_id: int, image_data: dict) -> Image:
+        """Actualiza los datos de una imagen existente en la base de datos."""
+        # Obtén la imagen a actualizar
+        image = await self.get_by_id(image_id)
+
+        # Actualiza los atributos de la imagen
+        for key, value in image_data.items():
+            if hasattr(image, key):
+                setattr(image, key, value)
+
+        # Guarda los cambios en la base de datos
+        self.async_session.add(image)
+        await self.async_session.commit()
+        await self.async_session.refresh(image)
+        return image
