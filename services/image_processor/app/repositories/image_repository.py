@@ -1,4 +1,5 @@
 from typing import Any
+from uuid import UUID
 
 from fastapi import Depends
 import sqlalchemy
@@ -17,7 +18,7 @@ class ImageRepository:
         await self.async_session.refresh(new_image)
         return new_image
 
-    async def get_by_id(self, image_id: int) -> Image:
+    async def get_by_id(self, image_id: UUID) -> Image:
         stmt = sqlalchemy.select(Image).where(Image.id == image_id)
         query = await self.async_session.execute(stmt)
         image = query.scalar()
@@ -25,7 +26,7 @@ class ImageRepository:
             raise ValueError(f"Image with id {image_id} not found.")
         return image
     
-    async def update(self, image_id: int, image_data: dict) -> Image:
+    async def update(self, image_id: UUID, image_data: dict) -> Image:
         """Actualiza los datos de una imagen existente en la base de datos."""
         # Obtén la imagen a actualizar
         image = await self.get_by_id(image_id)

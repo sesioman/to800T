@@ -1,6 +1,7 @@
 # app/routers/image_router.py
 
 from typing import Annotated
+from uuid import UUID
 from fastapi import APIRouter, BackgroundTasks, File, Form, UploadFile, Depends
 from app.services.image_service import ImageService
 from app.schemas.image_schema import ImageResponse
@@ -16,7 +17,7 @@ async def process_image(background_tasks: BackgroundTasks,width: Annotated[int, 
     return await service.process_image(file, width, height, background_tasks)
 
 @router.get("/{image_id}")
-async def get_image(image_id: int, service: ImageService = Depends(ImageService)) -> ImageResponse:
+async def get_image(image_id: UUID, service: ImageService = Depends(ImageService)) -> ImageResponse:
     """
     Obtiene información de una imagen procesada.
     """
