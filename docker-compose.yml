@@ -1,0 +1,73 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: db_postgres
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: images_service
+    secrets:
+      - db_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  fastapi-image-processor:
+    build: ./services/image_processor
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - minio
+    environment:
+      ENVIRONMENT: "docker"
+      DATABASE_HOST: db
+      DATABASE_PASS_FILE: /run/secrets/db_password
+      DATABASE_PORT: 5432
+      DATABASE_NAME: "images_service"
+
+      STORAGE_TYPE: "minio"
+      MINIO_URL: "minio:9000"
+      MINIO_ROOT_USER_FILE: /run/secrets/minio_root_user
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/minio_root_password
+      MINIO_SECURE: false
+
+    secrets:
+      - db_password
+      - minio_root_user
+      - minio_root_password
+
+    volumes:
+      - ./services/image_processor/app:/app/app
+      - ./scripts/wait-for-it.sh:/app/wait-for-it.sh
+    entrypoint: ["./wait-for-it.sh", "db:5432", "--", "sh","-c","alembic upgrade head && /app/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER_FILE: /run/secrets/minio_root_user
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/minio_root_password
+    secrets:
+      - minio_root_user
+      - minio_root_password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+
+volumes:
+  postgres_data:
+  minio_data:
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  minio_root_user:
+    file: ./secrets/minio_root_user.txt
+  minio_root_password:
+    file: ./secrets/minio_root_password.txt

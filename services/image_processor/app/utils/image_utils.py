@@ -1,3 +1,4 @@
+import os
 import shutil
 from uuid import UUID
 from fastapi import UploadFile
@@ -25,3 +26,9 @@ def save_image_to_disk(file: UploadFile, image_id: UUID) -> str:
         shutil.copyfileobj(file.file, buffer)
 
     return str(file_path)
+
+def sanitize_filename(file_name: str) -> str:
+    # Asegura que el nombre del archivo no tenga segmentos problemáticos
+    file_name = os.path.basename(file_name)  # Remueve cualquier path
+    file_name = file_name.replace("..", "")  # Evita segmentos '..'
+    return file_name

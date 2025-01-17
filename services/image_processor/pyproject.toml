@@ -11,6 +11,7 @@ dependencies = [
     "ipython==8.12.3",
     "ipywidgets==8.1.5",
     "matplotlib==3.8.4",
+    "minio>=7.2.14",
     "numba==0.60.0",
     "numba-progress==1.1.0",
     "numpy==2.0.1",
